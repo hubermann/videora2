@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Videora</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- TailwindCSS -->
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+
+    <!-- Application-specific CSS -->
+    <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
+
+    <!-- JavaScript Packs -->
+    <%= javascript_pack_tag "application", "data-turbo-track": "reload" %>
+  </head>
+
+  <body class="bg-gray-50 text-gray-800 antialiased">
+    <header class="bg-white shadow">
+      <div class="container mx-auto px-5 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-blue-600">
+          <%= link_to "Videora", root_path, class: "hover:underline" %>
+        </h1>
+        <nav class="flex space-x-4">
+          <%= link_to "Courses", courses_path, class: "text-gray-600 hover:text-gray-900" %>
+          <% if user_signed_in? %>
+            <%= link_to "Profile", profile_path, class: "text-gray-600 hover:text-gray-900" %>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "text-gray-600 hover:text-gray-900" %>
+          <% else %>
+            <%= link_to "Sign Up", new_user_registration_path, class: "text-gray-600 hover:text-gray-900" %>
+            <%= link_to "Login", new_user_session_path, class: "text-gray-600 hover:text-gray-900" %>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+
+
+    <main class="container mx-auto mt-10 px-5">
+      <%= yield %>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-10">
+      <p>&copy; <%= Time.current.year %> Videora. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

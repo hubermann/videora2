@@ -1,0 +1,50 @@
+<p id="notice" class="text-green-600 font-medium mb-4"><%= notice %></p>
+
+<div class="max-w-6xl mx-auto p-6 bg-gray-100 rounded shadow-md mt-10">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">Courses</h1>
+
+  <table class="min-w-full bg-white border border-gray-300 rounded">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="px-6 py-3 border-b text-left text-sm font-medium text-gray-700">Title</th>
+        <th class="px-6 py-3 border-b text-left text-sm font-medium text-gray-700">Description</th>
+        <th class="px-6 py-3 border-b text-left text-sm font-medium text-gray-700">Price</th>
+        <th class="px-6 py-3 border-b text-left text-sm font-medium text-gray-700">Subscribed</th>
+        <th class="px-6 py-3 border-b text-left text-sm font-medium text-gray-700">Actions</th>
+        <th class="px-6 py-3 border-b"></th>
+        <th class="px-6 py-3 border-b"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @courses.each do |course| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 border-b text-sm text-gray-700"><%= course.title %></td>
+          <td class="px-6 py-4 border-b text-sm text-gray-700"><%= truncate(course.description, length: 50) %></td>
+          <td class="px-6 py-4 border-b text-sm text-gray-700"><%= number_to_currency(course.price) %></td>
+          <td class="px-6 py-4 border-b text-sm text-gray-700">
+            <% if current_user.subscribed_courses.include?(course) %>
+              <span class="text-green-500 font-semibold">Yes</span>
+            <% else %>
+              <span class="text-red-500 font-semibold">No</span>
+            <% end %>
+          </td>
+          <td class="px-6 py-4 border-b text-sm">
+            <% if current_user.subscribed_courses.include?(course) %>
+              <%= button_to "Unsubscribe", unsubscribe_course_path(course), method: :delete, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
+            <% else %>
+              <%= button_to "Subscribe", subscribe_course_path(course), method: :post, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+            <% end %>
+          </td>
+          <td class="px-6 py-4 border-b text-sm text-blue-500"><%= link_to 'Show', course, class: "hover:underline" %></td>
+          <td class="px-6 py-4 border-b text-sm text-yellow-500"><%= link_to 'Edit', edit_course_path(course), class: "hover:underline" %></td>
+          <td class="px-6 py-4 border-b text-sm text-red-500"><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' }, class: "hover:underline" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="mt-6">
+    <%= link_to 'New Course', new_course_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+</div>
